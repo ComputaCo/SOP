@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "sop"
+version = "0.1.0"
+description = ""
+authors = ["Jacob Valdez <jacobfv123@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.96.0"
+requests = "^2.31.0"
+stringcase = "^1.2.0"
+pony = "^0.7.16"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
