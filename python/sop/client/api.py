@@ -84,12 +84,23 @@ class ClientAPI(BaseAPI):
         return requests.request(verb, path, params=params, data=data, headers=headers)
 
     def rpc(self, method_name, /, args, kwds, rpc_verb="POST", rpc_ret_parser=None):
-        response = self.request(
-            verb=rpc_verb,
-            path="/rpc",
-            data={"method": method_name, "args": args, "kwds": kwds},
-            headers={"Content-Type": "application/json"},
-        )
+        match rpc_verb:
+            case "GET":
+                response = self.request(
+                    verb=rpc_verb,
+                    path="/rpc",
+                    params={"method": method_name, "args": args, "kwds": kwds},
+                    headers={"Content-Type": "application/json"},
+                )
+            case "POST":
+                response = self.request(
+                    verb=rpc_verb,
+                    path="/rpc",
+                    data={"method": method_name, "args": args, "kwds": kwds},
+                    headers={"Content-Type": "application/json"},
+                )
+            case _:
+                raise ValueError(f"Unsupported RPC verb: {rpc_verb}")
         return rpc_ret_parser.parse(response.json())
 
     def mount_sub_api(self, prefix: str, api: BaseAPI):

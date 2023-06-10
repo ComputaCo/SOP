@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from functools import cached_property
 from typing import Type
 
 import stringcase
@@ -17,6 +18,7 @@ class AbstractBaseApp(BaseAPI):
     def __post_init__(self) -> None:
         self.app = self
 
+    @cached_property
     def Entity(self) -> Type[BaseEntity]:
         class Entity(self.T_Entity):
             class Meta(self.T_Entity.Meta):
